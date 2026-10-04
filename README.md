@@ -32,7 +32,7 @@ dependencies remain in the repository but are not used by the current voice UI.
 
 ## Interface
 
-- Responsive cream/coral lobby with separate create and join flows. Mobile layouts use 44px+ controls, 16px form inputs, safe-area spacing, and a compact waiting lobby without duplicate side panels.
+- Responsive dark slate lobby with vivid player colors with separate create and join flows. Mobile layouts use 44px+ controls, 16px form inputs, safe-area spacing, and a compact waiting lobby without duplicate side panels.
 - Shared proportional board, player-colored tokens, safe squares, and legal move highlights.
 - The creator chooses a color; friends choose from live available colors before joining. Taken colors are disabled and enforced by the server. Lobby color changes are locked when the game starts.
 - Two-player matches always use opposite yards (red/yellow or green/blue); tokens hop square by square when moving. Captured tokens slide back to their yards after the attacker lands.

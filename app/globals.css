@@ -1,12 +1,13 @@
 @import "tailwindcss";
 :root {
-  --paper: #f8f6f0;
-  --ink: #26352f;
-  --muted: #747970;
-  --line: #e5e5db;
-  --coral: #db624c;
-  --green: #326b54;
-  --white: #fffefa;
+  color-scheme: dark;
+  --paper: #101a2b;
+  --ink: #edf3fc;
+  --muted: #a5b6cf;
+  --line: #34455f;
+  --coral: #ed5267;
+  --green: #51dca3;
+  --white: #1c2a40;
   --font-sans: var(--font-geist-sans);
 }
 @theme inline {
@@ -76,7 +77,7 @@ svg {
   flex-shrink: 0;
 }
 ::selection {
-  background: #f3cabc;
+  background: #26364e;
 }
 .site-shell {
   overflow-x: clip;
@@ -170,7 +171,7 @@ svg {
 }
 .hero-description {
   font-size: 13px;
-  color: #6c726b;
+  color: #dce7f7;
   line-height: 1.9;
 }
 .lobby-card {
@@ -203,7 +204,7 @@ svg {
   color: var(--muted);
 }
 .lobby-tabs button.selected {
-  background: #eff1e9;
+  background: #26364e;
   color: var(--ink);
 }
 .lobby-card form {
@@ -224,27 +225,27 @@ legend {
 .input-wrap > svg {
   position: absolute;
   left: 13px;
-  color: #90978d;
+  color: #b7c6da;
 }
 .input-wrap > span {
   position: absolute;
   right: 12px;
   font-size: 10px;
-  color: #8b9187;
+  color: #b7c6da;
 }
 input {
   width: 100%;
   height: 46px;
-  border: 1px solid #dddfd5;
+  border: 1px solid #3a4c65;
   border-radius: 8px;
-  background: #fffefa;
+  background: #1c2a40;
   padding: 0 13px;
   color: var(--ink);
   font-size: 12px;
   transition: box-shadow 0.2s;
 }
 input::placeholder {
-  color: #969b91;
+  color: #b7c6da;
 }
 .input-wrap input {
   padding: 0 50px 0 40px;
@@ -262,7 +263,7 @@ input::placeholder {
 }
 .player-selector legend span {
   font-weight: 400;
-  color: #8a9086;
+  color: #b7c6da;
   font-size: 10px;
 }
 .player-selector > div {
@@ -279,13 +280,13 @@ input::placeholder {
   background: transparent;
   border: 1px solid var(--line);
   border-radius: 8px;
-  color: #788173;
+  color: #b7c6da;
   font-size: 11px;
 }
 .player-selector button.selected {
-  background: #edf2e9;
+  background: #26364e;
   border-color: #7d957b;
-  color: #345b40;
+  color: #dce7f7;
 }
 .join-field {
   margin: 19px 0 20px;
@@ -320,12 +321,12 @@ input::placeholder {
   justify-content: space-between;
 }
 .button-secondary {
-  background: #fffefa;
-  border: 1px solid #d9dfd1;
+  background: #1c2a40;
+  border: 1px solid #3a4c65;
   color: var(--ink);
 }
 .button-secondary:hover {
-  background: #f3f4eb;
+  background: #1c2a40;
 }
 .button-dark {
   background: var(--ink);
@@ -357,13 +358,13 @@ input::placeholder {
 .form-note {
   font-size: 10px;
   text-align: center;
-  color: #858b7f;
+  color: #b7c6da;
   margin-top: 15px;
   letter-spacing: 0.1px;
 }
 .form-error {
-  background: #fbece6;
-  color: #9c3b2c;
+  background: #26364e;
+  color: #dce7f7;
   font-size: 12px;
   line-height: 1.6;
   padding: 10px;
@@ -394,7 +395,7 @@ input::placeholder {
 }
 .art-orbit {
   position: absolute;
-  border: 1px solid #e6e5d8;
+  border: 1px solid #3a4c65;
   border-radius: 50%;
   pointer-events: none;
 }
@@ -422,7 +423,7 @@ input::placeholder {
   align-items: center;
   gap: 12px;
   background: var(--white);
-  border: 1px solid #e6e7dd;
+  border: 1px solid #3a4c65;
   border-radius: 12px;
   padding: 14px 18px;
   font-size: 11px;
@@ -451,8 +452,8 @@ input::placeholder {
   font-weight: 700;
 }
 .avatar-green {
-  background: #e7efe0;
-  color: #568248;
+  background: #26364e;
+  color: #dce7f7;
 }
 .wave {
   margin-left: 8px;
@@ -491,8 +492,8 @@ input::placeholder {
   height: 68px;
   display: grid;
   place-items: center;
-  background: #fffdf7;
-  border: 1px solid #dadbd2;
+  background: #1c2a40;
+  border: 1px solid #3a4c65;
   box-shadow: 3px 7px 0 #dbded1;
   z-index: 4;
   border-radius: 16px;
@@ -504,7 +505,7 @@ input::placeholder {
 }
 .art-spark {
   position: absolute;
-  color: #d4a452;
+  color: #b7c6da;
 }
 .spark-one {
   left: 20px;
@@ -516,7 +517,7 @@ input::placeholder {
   right: -4px;
   bottom: 173px;
   font-size: 48px;
-  color: #73957a;
+  color: #b7c6da;
 }
 .art-caption {
   position: absolute;
@@ -526,7 +527,7 @@ input::placeholder {
   text-align: center;
   font-size: 8px;
   letter-spacing: 2.1px;
-  color: #8c9385;
+  color: #b7c6da;
 }
 .feature-strip {
   display: grid;
@@ -547,16 +548,16 @@ input::placeholder {
   min-width: 44px;
   height: 44px;
   border-radius: 13px;
-  background: #eaece1;
-  color: #5f7658;
+  background: #26364e;
+  color: #dce7f7;
 }
 .feature-strip > div:nth-child(2) .feature-icon {
-  background: #f5e9dd;
-  color: #b4885c;
+  background: #26364e;
+  color: #b7c6da;
 }
 .feature-strip > div:nth-child(3) .feature-icon {
-  background: #e7eceb;
-  color: #648680;
+  background: #26364e;
+  color: #b7c6da;
 }
 .feature-strip h2 {
   font-size: 12px;
@@ -575,7 +576,7 @@ input::placeholder {
   border-top: 1px solid var(--line);
   padding: 21px 0 25px;
   font-size: 10px;
-  color: #8c9185;
+  color: #b7c6da;
 }
 .site-footer > span:last-child {
   display: flex;
@@ -590,16 +591,16 @@ input::placeholder {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #e96958;
+  background: #f04458;
 }
 .tiny-colors i:nth-child(2) {
-  background: #4a9c7d;
+  background: #17b978;
 }
 .tiny-colors i:nth-child(3) {
-  background: #e4b447;
+  background: #ffc336;
 }
 .tiny-colors i:nth-child(4) {
-  background: #668dc9;
+  background: #4185ff;
 }
 /* A single proportional board, shared by the lobby and the live table. */
 .board-frame {
@@ -710,10 +711,10 @@ input::placeholder {
   height: 20%;
   background: conic-gradient(
     from -45deg,
-    #4a9c7d 0deg 90deg,
-    #e4b447 90deg 180deg,
-    #668dc9 180deg 270deg,
-    #e96958 270deg
+    #17b978 0deg 90deg,
+    #ffc336 90deg 180deg,
+    #4185ff 180deg 270deg,
+    #f04458 270deg
   );
   display: grid;
   place-items: center;
@@ -776,7 +777,15 @@ input::placeholder {
   z-index: 30 !important;
 }
 .finished-token {
-  width: 3.8%;
+  width: 3.3%;
+  border-width: 1.5px;
+}
+.finished-token > span {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  font-weight: 800;
+  color: #101a2b;
 }
 .board-preview .yard-label {
   font-size: 8px;
@@ -801,13 +810,13 @@ input::placeholder {
   background: var(--ink);
 }
 .dice-button {
-  background: #fffef9;
+  background: #1c2a40;
   width: 68px;
   height: 68px;
   min-width: 68px;
   display: grid;
   place-items: center;
-  border: 1px solid #d4d9cb;
+  border: 1px solid #3a4c65;
   border-radius: 16px;
   box-shadow: 0 4px 0 #d4d9cb;
 }
@@ -861,13 +870,13 @@ input::placeholder {
   gap: 9px;
   font-size: 10px;
   font-weight: 600;
-  background: #edf1e8;
-  border: 1px solid #dfe6d6;
+  background: #26364e;
+  border: 1px solid #3a4c65;
   padding: 9px 13px;
   border-radius: 20px;
 }
 .connection-badge.connecting {
-  background: #f6eddb;
+  background: #26364e;
 }
 .connecting .status-dot {
   background: #c8a052;
@@ -881,8 +890,8 @@ input::placeholder {
 }
 .game-table {
   padding: 20px;
-  background: #f0f1e7;
-  border: 1px solid #e0e4d7;
+  background: #26364e;
+  border: 1px solid #3a4c65;
   border-radius: 20px;
   min-width: 0;
 }
@@ -892,7 +901,7 @@ input::placeholder {
   align-items: center;
   gap: 8px;
   margin: 0 0 18px;
-  color: #747d6d;
+  color: #b7c6da;
   font-size: 10px;
 }
 .table-topline > span {
@@ -948,13 +957,13 @@ input::placeholder {
   align-items: center;
   font-size: 11px;
   font-variant-numeric: tabular-nums;
-  background: #fffdf6;
+  background: #1c2a40;
   border-radius: 20px;
   padding: 7px;
   align-self: flex-start;
 }
 .turn-timer.urgent {
-  color: #b04736;
+  color: #dce7f7;
 }
 .move-options {
   display: flex;
@@ -970,7 +979,7 @@ input::placeholder {
 }
 .move-options button {
   min-height: 36px;
-  background: #fffefa;
+  background: #1c2a40;
   border: 1px solid var(--player-color);
   border-radius: 7px;
   display: flex;
@@ -986,7 +995,7 @@ input::placeholder {
   display: flex;
   align-items: center;
   gap: 10px;
-  border-top: 1px solid #dce0d2;
+  border-top: 1px solid #3a4c65;
   padding-top: 17px;
 }
 .voice-icon {
@@ -995,8 +1004,8 @@ input::placeholder {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #e0e5d6;
-  color: #6c8061;
+  background: #26364e;
+  color: #b7c6da;
   flex-shrink: 0;
 }
 .voice-copy {
@@ -1027,7 +1036,7 @@ input::placeholder {
   white-space: nowrap;
 }
 .voice-active .voice-icon {
-  background: #d3e5d4;
+  background: #26364e;
   color: var(--green);
 }
 .icon-button {
@@ -1035,14 +1044,14 @@ input::placeholder {
   place-items: center;
   min-width: 36px;
   min-height: 36px;
-  border: 1px solid #d4dccb;
-  background: #fffefa;
+  border: 1px solid #3a4c65;
+  background: #1c2a40;
   border-radius: 9px;
 }
 .local-caption {
-  border-top: 1px solid #dce0d2;
+  border-top: 1px solid #3a4c65;
   padding: 16px 0 0;
-  color: #7e8974;
+  color: #b7c6da;
   font-size: 10px;
   display: flex;
   align-items: center;
@@ -1056,7 +1065,7 @@ input::placeholder {
   gap: 17px;
 }
 .sidebar-card {
-  background: #fffefa;
+  background: #1c2a40;
   border: 1px solid var(--line);
   border-radius: 15px;
   padding: 20px;
@@ -1073,7 +1082,7 @@ input::placeholder {
 }
 .card-heading > span {
   font-size: 10px;
-  color: #8c9584;
+  color: #b7c6da;
 }
 .player-list {
   display: flex;
@@ -1091,7 +1100,7 @@ input::placeholder {
 }
 .current-player {
   border-color: color-mix(in srgb, var(--player-color) 22%, transparent);
-  background: color-mix(in srgb, var(--player-color) 7%, #fffefa);
+  background: color-mix(in srgb, var(--player-color) 7%, #1c2a40);
 }
 .player-avatar {
   width: 34px;
@@ -1100,7 +1109,7 @@ input::placeholder {
   place-items: center;
   flex-shrink: 0;
   border-radius: 11px;
-  background: color-mix(in srgb, var(--player-color) 16%, #fffefa);
+  background: color-mix(in srgb, var(--player-color) 16%, #1c2a40);
   color: var(--player-color);
   font-weight: 700;
   font-size: 12px;
@@ -1119,13 +1128,13 @@ input::placeholder {
 }
 .player-info strong small {
   font-weight: 400;
-  color: #929987;
+  color: #b7c6da;
   font-size: 9px;
 }
 .player-info > span {
   display: block;
   font-size: 11px;
-  color: #919787;
+  color: #b7c6da;
   text-transform: capitalize;
   margin-top: 4px;
 }
@@ -1148,20 +1157,20 @@ input::placeholder {
   opacity: 1;
 }
 .empty-seat .player-avatar {
-  border: 1px dashed #cfd6c5;
+  border: 1px dashed #3a4c65;
   background: none;
-  color: #98a28b;
+  color: #b7c6da;
 }
 .empty-seat .player-info strong {
   font-weight: 400;
-  color: #929a89;
+  color: #b7c6da;
 }
 .invite-card {
-  border: 1px solid #dce3d1;
-  background: #eaf0e1;
+  border: 1px solid #3a4c65;
+  background: #26364e;
   padding: 21px;
   border-radius: 15px;
-  color: #526748;
+  color: #dce7f7;
 }
 .invite-card h2 {
   font-size: 15px;
@@ -1173,13 +1182,13 @@ input::placeholder {
 .invite-card p {
   font-size: 11px;
   line-height: 1.7;
-  color: #7b8770;
+  color: #b7c6da;
 }
 .room-code {
   font-family: var(--font-geist-mono);
   letter-spacing: 5px;
   font-size: 23px;
-  color: #4e6841;
+  color: #dce7f7;
   margin: 20px 0 15px;
   font-weight: 600;
 }
@@ -1202,16 +1211,16 @@ input::placeholder {
 }
 .activity-card li {
   font-size: 11px;
-  color: #808878;
+  color: #b7c6da;
   line-height: 1.6;
   display: flex;
   align-items: baseline;
   gap: 9px;
   padding: 8px 0;
-  border-bottom: 1px solid #f1f1e9;
+  border-bottom: 1px solid #3a4c65;
 }
 .activity-card li:first-child {
-  color: #455840;
+  color: #dce7f7;
 }
 .activity-card li > span {
   height: 4px;
@@ -1227,14 +1236,14 @@ input::placeholder {
   border-radius: 50%;
 }
 .rules-panel {
-  background: #fffdf5;
+  background: #1c2a40;
   padding: 14px;
-  border: 1px solid #dfe5d3;
+  border: 1px solid #3a4c65;
   border-radius: 10px;
   margin-bottom: 16px;
   font-size: 11px;
   line-height: 1.8;
-  color: #67735d;
+  color: #dce7f7;
 }
 .rules-panel strong {
   color: var(--ink);
@@ -1251,7 +1260,7 @@ input::placeholder {
   margin: 40px auto 100px;
   text-align: center;
   padding: 45px 30px;
-  background: #fffefa;
+  background: #1c2a40;
   border: 1px solid var(--line);
   border-radius: 20px;
 }
@@ -1259,7 +1268,7 @@ input::placeholder {
   display: grid;
   place-items: center;
   color: var(--green);
-  background: #eaf0e1;
+  background: #26364e;
   width: 64px;
   height: 64px;
   border-radius: 20px;
@@ -1289,8 +1298,8 @@ input::placeholder {
 }
 .notice {
   padding: 12px 18px;
-  background: #fbecdf;
-  color: #9e583a;
+  background: #26364e;
+  color: #dce7f7;
   border-radius: 9px;
   margin-bottom: 15px;
   font-size: 12px;
@@ -1772,14 +1781,14 @@ input::placeholder {
   align-items: center;
   gap: 7px;
   padding: 16px 8px;
-  border: 1px dashed #ccd4c3;
+  border: 1px dashed #3a4c65;
   border-radius: 12px;
   background: #ffffff50;
   min-width: 0;
 }
 .lobby-seat.seat-ready {
   border-style: solid;
-  background: #fffef8;
+  background: #1c2a40;
   border-color: color-mix(in srgb, var(--player-color) 35%, white);
 }
 .lobby-seat .player-avatar {
@@ -1876,7 +1885,7 @@ input::placeholder {
   opacity: 1 !important;
   cursor: wait;
   animation: dice-tumble 680ms ease-in-out;
-  border-color: #b8c6a8;
+  border-color: #3a4c65;
   will-change: transform;
 }
 .dice-button.rolling .dice-face {
@@ -1943,7 +1952,7 @@ input::placeholder {
   padding: 10px 12px;
   margin-bottom: 16px;
   border-radius: 8px;
-  background: #e3ecdb;
+  background: #26364e;
   color: var(--green);
   font-size: 11px;
   line-height: 1.6;
@@ -2025,7 +2034,7 @@ input::placeholder {
 .color-option:disabled {
   opacity: 0.6 !important;
   cursor: not-allowed;
-  background: #efefe8;
+  background: #26364e;
   border-style: dashed;
 }
 .color-option:disabled .color-swatch {
@@ -2213,4 +2222,37 @@ a {
   .local-button {
     margin-top: 7px;
   }
+}
+
+/* Dark surroundings keep the vivid board and primary actions in focus. */
+body {
+  background: radial-gradient(ellipse at 50% 0%, #223653 0%, var(--paper) 65%);
+}
+.button-dark {
+  background: #3155a3;
+  color: #fff;
+}
+.button-dark:hover {
+  background: #416ac0;
+}
+.button-primary:hover:not(:disabled) {
+  background: #d53c53;
+}
+.board-frame {
+  background: #243650;
+  border-color: #425773;
+  box-shadow:
+    0 5px 0 #0b1220,
+    0 16px 35px #0004;
+}
+.board-token.movable,
+.board-token:focus-visible {
+  outline-color: #17243b;
+}
+.lobby-seat {
+  background: #18263a;
+}
+.lobby-seat.seat-ready {
+  background: #21324b;
+  border-color: var(--player-color);
 }

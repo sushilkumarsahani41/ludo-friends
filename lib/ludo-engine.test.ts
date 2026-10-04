@@ -7,6 +7,7 @@ import {
   absoluteCell,
   isSafeAbsolute,
   FINISHED,
+  makeRoomCode,
   COLORS,
   getOnlyLegalMove,
 } from "./ludo-engine";
@@ -107,20 +108,24 @@ describe("ludo-engine", () => {
   });
 });
 
-
 describe("visible home distance", () => {
   for (const color of COLORS) {
     for (let remaining = 1; remaining <= 6; remaining++) {
       it(`${color} needs exactly ${remaining} steps to finish`, () => {
-        const g = createGame("HOME01", [{color, name: "A"}, {color: COLORS.find(c => c !== color)!, name: "B"}]);
+        const g = createGame("HOME01", [
+          { color, name: "A" },
+          { color: COLORS.find((c) => c !== color)!, name: "B" },
+        ]);
         // Five lane squares (51..55), then home (56); no invisible center step.
         g.players[0].tokens = [56 - remaining, 56, 56, 56];
         for (let dice = 1; dice <= 6; dice++) {
-          const preview = {...g, stage: "await-move" as const, dice};
+          const preview = { ...g, stage: "await-move" as const, dice };
           if (dice > remaining) {
             expect(getLegalMoves(preview, 0, dice)).toEqual([]);
             expect(getOnlyLegalMove(preview)).toBeNull();
-            expect(() => applyMove(preview, 0, 0, dice)).toThrow("Illegal move");
+            expect(() => applyMove(preview, 0, 0, dice)).toThrow(
+              "Illegal move",
+            );
             const passed = applyRoll(g, 0, dice).state;
             expect(passed.turnIdx).toBe(1);
             expect(passed.players[0].tokens[0]).toBe(56 - remaining);
@@ -132,5 +137,14 @@ describe("visible home distance", () => {
         }
       });
     }
+  }
+});
+
+it("creates six-character room codes containing both letters and numbers", () => {
+  for (let i = 0; i < 100; i++) {
+    const code = makeRoomCode();
+    expect(code).toMatch(/^[A-HJKMNP-Z2-9]{6}$/);
+    expect(code).toMatch(/[A-Z]/);
+    expect(code).toMatch(/[2-9]/);
   }
 });

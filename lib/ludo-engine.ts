@@ -339,18 +339,31 @@ export function secureDice(): number {
 }
 
 export function makeRoomCode(): string {
-  const alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-  let code = "";
-  const c = globalThis.crypto as Crypto | undefined;
-  for (let i = 0; i < 6; i++) {
-    const r = c?.getRandomValues
-      ? (() => {
-          const b = new Uint32Array(1);
-          c.getRandomValues(b);
-          return b[0] % alphabet.length;
-        })()
-      : Math.floor(Math.random() * alphabet.length);
-    code += alphabet[r];
+  const letters = "ABCDEFGHJKMNPQRSTUVWXYZ";
+  const digits = "23456789";
+  const alphabet = letters + digits;
+  const randomIndex = (size: number) => {
+    const crypto = globalThis.crypto;
+    if (crypto?.getRandomValues) {
+      const buffer = new Uint32Array(1);
+      const limit = Math.floor(0x100000000 / size) * size;
+      do {
+        crypto.getRandomValues(buffer);
+      } while (buffer[0] >= limit);
+      return buffer[0] % size;
+    }
+    return Math.floor(Math.random() * size);
+  };
+  // Always include a letter and a digit, then shuffle their positions.
+  const chars = [
+    letters[randomIndex(letters.length)],
+    digits[randomIndex(digits.length)],
+  ];
+  for (let i = 2; i < 6; i++)
+    chars.push(alphabet[randomIndex(alphabet.length)]);
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = randomIndex(i + 1);
+    [chars[i], chars[j]] = [chars[j], chars[i]];
   }
-  return code;
+  return chars.join("");
 }

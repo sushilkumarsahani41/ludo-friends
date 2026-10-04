@@ -1,6 +1,6 @@
 "use client";
 import type { CSSProperties } from "react";
-import { TRACK_COORDS, HOME_STRETCH } from "@/lib/board-coords";
+import { TRACK_COORDS, HOME_STRETCH, FINISH_STACKS } from "@/lib/board-coords";
 import {
   COLORS,
   FINISHED,
@@ -12,10 +12,10 @@ import {
 } from "@/lib/ludo-engine";
 
 export const PLAYER_COLORS: Record<LudoColor, string> = {
-  red: "#e96958",
-  green: "#4a9c7d",
-  yellow: "#e4b447",
-  blue: "#668dc9",
+  red: "#f04458",
+  green: "#17b978",
+  yellow: "#ffc336",
+  blue: "#4185ff",
 };
 const YARDS: Record<LudoColor, [number, number][]> = {
   red: [
@@ -124,7 +124,9 @@ export default function Board({
           )),
         )}
         <div className="board-center">
-          <span>✦</span>
+          {!game.players.some((p) => p.tokens.includes(FINISHED)) && (
+            <span>✦</span>
+          )}
         </div>
         {game.players.flatMap((player, pi) =>
           player.tokens.map((steps, ti) => {
@@ -135,8 +137,7 @@ export default function Board({
             else if (steps <= 55)
               [r, c] = HOME_STRETCH[player.color][steps - 51];
             else {
-              r = 6.5 + Math.floor(pi / 2) * 0.85;
-              c = 6.5 + (pi % 2) * 0.85;
+              [r, c] = FINISH_STACKS[player.color];
             }
             const key = `${r}-${c}`;
             const count = occupied.get(key) ?? 0;
@@ -147,8 +148,8 @@ export default function Board({
               legalMoves.includes(ti) &&
               steps !== FINISHED;
             const style = {
-              left: `${((c + 0.5) / 15) * 100 + (count % 2) * 1.3}%`,
-              top: `${((r + 0.5) / 15) * 100 + Math.floor(count / 2) * 1.3}%`,
+              left: `${((c + 0.5) / 15) * 100 + (steps === FINISHED ? 0 : (count % 2) * 1.3)}%`,
+              top: `${((r + 0.5) / 15) * 100 + (steps === FINISHED ? -count * 0.42 : Math.floor(count / 2) * 1.3)}%`,
               "--player-color": PLAYER_COLORS[player.color],
               zIndex: 5 + count,
             } as CSSProperties;
@@ -163,7 +164,7 @@ export default function Board({
                 onClick={() => onTokenClick?.(ti)}
                 aria-label={`${player.name}, ${player.color} token ${ti + 1}${steps === FINISHED ? ", home" : movable ? ", move" : ""}`}
               >
-                <span>{steps === FINISHED ? "✓" : ""}</span>
+                <span>{steps === FINISHED ? count + 1 : ""}</span>
               </button>
             );
           }),
