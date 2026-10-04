@@ -4,23 +4,38 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:socket": "tsx --watch server/index.ts",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:socket\"",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "start:socket": "tsx server/index.ts",
+    "lint": "eslint",
+    "test": "vitest run"
   },
   "dependencies": {
+    "express": "^5.2.1",
+    "livekit-client": "^2.22.3",
+    "livekit-server-sdk": "^2.19.1",
+    "nanoid": "^6.0.1",
     "next": "16.3.8",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.19.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^10.0.5",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
   }
 }

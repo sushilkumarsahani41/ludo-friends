@@ -1,0 +1,29 @@
+# Render blueprint: web (Next.js) + socket (Socket.io game server)
+services:
+  - type: web
+    name: ludo-web
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /
+    envVars:
+      - key: NEXT_PUBLIC_SOCKET_URL
+        value: https://ludo-socket.onrender.com
+      - key: LIVEKIT_URL
+        sync: false
+      - key: LIVEKIT_API_KEY
+        sync: false
+      - key: LIVEKIT_API_SECRET
+        sync: false
+
+  - type: web
+    name: ludo-socket
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start:socket
+    healthCheckPath: /health
+    envVars:
+      - key: CORS_ORIGIN
+        value: https://ludo-web.onrender.com

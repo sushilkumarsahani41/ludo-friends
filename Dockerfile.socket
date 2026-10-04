@@ -1,0 +1,10 @@
+FROM node:24-alpine
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY lib ./lib
+COPY server ./server
+ENV NODE_ENV=production SOCKET_PORT=4001 HOST=0.0.0.0
+USER node
+EXPOSE 4001
+CMD ["./node_modules/.bin/tsx", "server/index.ts"]
