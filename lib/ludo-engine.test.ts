@@ -7,6 +7,8 @@ import {
   absoluteCell,
   isSafeAbsolute,
   FINISHED,
+  COLORS,
+  getOnlyLegalMove,
 } from "./ludo-engine";
 
 function twoPlayer() {
@@ -77,16 +79,16 @@ describe("ludo-engine", () => {
 
   it("needs exact roll to finish", () => {
     const g = twoPlayer();
-    g.players[0].tokens = [56, 57, 57, 57];
+    g.players[0].tokens = [55, 56, 56, 56];
     g.turnIdx = 0;
     g.stage = "await-roll";
-    const r = applyRoll(g, 0, 2); // 56+2=58 >57 -> no legal moves -> auto pass
+    const r = applyRoll(g, 0, 2); // 55+2=57 >56 -> no legal moves -> auto pass
     expect(r.state.turnIdx).toBe(1);
   });
 
   it("finishing all tokens wins", () => {
     const g = twoPlayer();
-    g.players[0].tokens = [56, 57, 57, 57];
+    g.players[0].tokens = [55, 56, 56, 56];
     g.turnIdx = 0;
     g.stage = "await-roll";
     const r = applyRoll(g, 0, 1);
@@ -103,4 +105,32 @@ describe("ludo-engine", () => {
     expect(isSafeAbsolute(0)).toBe(true);
     expect(isSafeAbsolute(1)).toBe(false);
   });
+});
+
+
+describe("visible home distance", () => {
+  for (const color of COLORS) {
+    for (let remaining = 1; remaining <= 6; remaining++) {
+      it(`${color} needs exactly ${remaining} steps to finish`, () => {
+        const g = createGame("HOME01", [{color, name: "A"}, {color: COLORS.find(c => c !== color)!, name: "B"}]);
+        // Five lane squares (51..55), then home (56); no invisible center step.
+        g.players[0].tokens = [56 - remaining, 56, 56, 56];
+        for (let dice = 1; dice <= 6; dice++) {
+          const preview = {...g, stage: "await-move" as const, dice};
+          if (dice > remaining) {
+            expect(getLegalMoves(preview, 0, dice)).toEqual([]);
+            expect(getOnlyLegalMove(preview)).toBeNull();
+            expect(() => applyMove(preview, 0, 0, dice)).toThrow("Illegal move");
+            const passed = applyRoll(g, 0, dice).state;
+            expect(passed.turnIdx).toBe(1);
+            expect(passed.players[0].tokens[0]).toBe(56 - remaining);
+          } else {
+            const result = applyMove(preview, 0, 0, dice).state;
+            expect(result.players[0].tokens[0]).toBe(56 - remaining + dice);
+            expect(result.stage === "game-over").toBe(dice === remaining);
+          }
+        }
+      });
+    }
+  }
 });

@@ -2,10 +2,10 @@
  * Authoritative Ludo rules engine — pure, deterministic, shared by
  * client (preview) and server (source of truth).
  *
- * Token model: steps = -1 (yard) | 0..56 (on board) | 57 (finished)
+ * Token model: steps = -1 (yard) | 0..55 (on board) | 56 (finished)
  *  - steps 0..50  -> main 52-cell track, absolute = (startOffset + steps) % 52
- *  - steps 51..56 -> private home-stretch (uncapturable)
- *  - steps 57      -> finished (home triangle)
+ *  - steps 51..55 -> private home-stretch (uncapturable)
+ *  - steps 56      -> finished (home triangle)
  */
 
 export type LudoColor = "red" | "green" | "yellow" | "blue";
@@ -36,14 +36,14 @@ export const START_OFFSET: Record<LudoColor, number> = {
 export const SAFE_CELLS = new Set([0, 8, 13, 21, 26, 34, 39, 47]);
 
 export const YARD = -1;
-export const FINISHED = 57;
+export const FINISHED = 56;
 export const LAST_TRACK_STEP = 50;
 export const MAX_PLAYERS = 4;
 
 export interface LudoPlayerState {
   color: LudoColor;
   name: string;
-  tokens: number[]; // length 4, values -1..57
+  tokens: number[]; // length 4, values -1..56
   finished: boolean;
   consecutiveSixes: number;
 }

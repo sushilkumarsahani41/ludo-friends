@@ -41,8 +41,7 @@ export function cellForToken(color: LudoColor, steps: number): [number, number] 
     return TRACK_COORDS[abs];
   }
   if (steps >= 51 && steps <= 55) return HOME_STRETCH[color][steps - 51];
-  if (steps === 56) return [7, 7]; // entered center, one before finish visual
-  return [7, 7]; // 57 finished -> center cluster
+  return [7, 7]; // 56 finished -> center cluster
 }
 
 export function isSafeTrackIndex(abs: number): boolean {

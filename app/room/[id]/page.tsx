@@ -26,6 +26,7 @@ import {
   secureDice,
   colorsForPlayers,
   COLORS,
+  FINISHED,
   type LudoColor,
 } from "@/lib/ludo-engine";
 import { AUTO_MOVE_PAUSE_MS } from "@/lib/game-feedback";
@@ -722,10 +723,10 @@ function Room({ roomId, localMode }: { roomId: string; localMode: boolean }) {
                         </div>
                         <div
                           className="player-progress"
-                          aria-label={`${p.tokens.filter((t) => t === 57).length} of 4 tokens home`}
+                          aria-label={`${p.tokens.filter((t) => t === FINISHED).length} of 4 tokens home`}
                         >
                           {p.tokens.map((t, index) => (
-                            <i key={index} className={t === 57 ? "home" : ""} />
+                            <i key={index} className={t === FINISHED ? "home" : ""} />
                           ))}
                         </div>
                       </div>

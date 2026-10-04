@@ -70,9 +70,9 @@ describe("dice and sound feedback", () => {
   it("distinguishes a token reaching home from the final winning token", () => {
     const before = game();
     before.stage = "await-move";
-    before.players[0].tokens[0] = 56;
+    before.players[0].tokens[0] = 55;
     expect(moveSound(before, applyMove(before, 0, 0, 1).state)).toBe("home");
-    before.players[0].tokens = [56, 57, 57, 57];
+    before.players[0].tokens = [55, 56, 56, 56];
     expect(moveSound(before, applyMove(before, 0, 0, 1).state)).toBe("win");
     expect(moveSound(null, before)).toBeNull();
   });

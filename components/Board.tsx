@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { TRACK_COORDS, HOME_STRETCH } from "@/lib/board-coords";
 import {
   COLORS,
+  FINISHED,
   SAFE_CELLS,
   START_OFFSET,
   absoluteCell,
@@ -144,7 +145,7 @@ export default function Board({
               !preview &&
               pi === game.turnIdx &&
               legalMoves.includes(ti) &&
-              steps !== 57;
+              steps !== FINISHED;
             const style = {
               left: `${((c + 0.5) / 15) * 100 + (count % 2) * 1.3}%`,
               top: `${((r + 0.5) / 15) * 100 + Math.floor(count / 2) * 1.3}%`,
@@ -156,13 +157,13 @@ export default function Board({
                 key={`${player.color}-${ti}`}
                 data-token={`${player.color}-${ti}`}
                 data-step={steps}
-                className={`board-token ${returningTokens.includes(`${player.color}-${ti}`) ? "returning" : ""} ${movingToken === `${player.color}-${ti}` ? "stepping" : ""} ${movable ? "movable" : ""} ${steps === 57 ? "finished-token" : ""}`}
+                className={`board-token ${returningTokens.includes(`${player.color}-${ti}`) ? "returning" : ""} ${movingToken === `${player.color}-${ti}` ? "stepping" : ""} ${movable ? "movable" : ""} ${steps === FINISHED ? "finished-token" : ""}`}
                 style={style}
                 disabled={!movable}
                 onClick={() => onTokenClick?.(ti)}
-                aria-label={`${player.name}, ${player.color} token ${ti + 1}${steps === 57 ? ", home" : movable ? ", move" : ""}`}
+                aria-label={`${player.name}, ${player.color} token ${ti + 1}${steps === FINISHED ? ", home" : movable ? ", move" : ""}`}
               >
-                <span>{steps === 57 ? "✓" : ""}</span>
+                <span>{steps === FINISHED ? "✓" : ""}</span>
               </button>
             );
           }),

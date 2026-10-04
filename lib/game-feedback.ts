@@ -1,4 +1,4 @@
-import type { LudoGameState } from "./ludo-engine";
+import { FINISHED, type LudoGameState } from "./ludo-engine";
 import type { GameSound } from "./game-audio";
 
 export const DICE_ROLL_MS = 680;
@@ -32,7 +32,7 @@ export function moveSound(
     player.tokens.forEach((step, ti) => {
       const old = previous.players[pi].tokens[ti];
       if (old >= 0 && step === -1) captured = true;
-      if (old !== 57 && step === 57) home = true;
+      if (old !== FINISHED && step === FINISHED) home = true;
     }),
   );
   return captured ? "capture" : home ? "home" : null;

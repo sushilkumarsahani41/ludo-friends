@@ -50,11 +50,11 @@ describe("step-by-step token movement", () => {
   });
   it("follows the home stretch and finishes before announcing a win", () => {
     const before = game();
-    before.players[0].tokens = [52, 57, 57, 57];
-    const after = applyMove(before, 0, 0, 5).state;
+    before.players[0].tokens = [52, 56, 56, 56];
+    const after = applyMove(before, 0, 0, 4).state;
     const frames = moveFrames(before, after);
     expect(frames.map((f) => f.game.players[0].tokens[0])).toEqual([
-      53, 54, 55, 56, 57, 57,
+      53, 54, 55, 56, 56,
     ]);
     expect(frames.slice(0, -1).every((f) => f.game.stage !== "game-over")).toBe(
       true,

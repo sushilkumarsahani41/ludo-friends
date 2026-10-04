@@ -115,7 +115,7 @@ describe("single legal move automation", () => {
   it("does nothing when there is no legal move or the room has not started", () => {
     vi.useFakeTimers();
     const room = fullRoom();
-    room.game.players[0].tokens[0] = 56;
+    room.game.players[0].tokens[0] = 55;
     room.game = applyRoll(room.game, 0, 2).state;
     expect(getOnlyLegalMove(room.game)).toBeNull();
     const onMoved = vi.fn();
@@ -163,7 +163,7 @@ describe("single legal move automation", () => {
     vi.useFakeTimers();
     const room = fullRoom();
     room.started = true;
-    room.game.players[0].tokens = [56, 57, 57, 57];
+    room.game.players[0].tokens = [55, 56, 56, 56];
     room.game = applyRoll(room.game, 0, 1).state;
     scheduleOnlyMove(room, vi.fn());
     vi.runAllTimers();
