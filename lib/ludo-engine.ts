@@ -46,6 +46,7 @@ export interface LudoPlayerState {
   tokens: number[]; // length 4, values -1..56
   finished: boolean;
   consecutiveSixes: number;
+  missedTurns?: number;
 }
 
 export interface LudoGameState {
@@ -132,7 +133,17 @@ export function canMoveToken(
   dice: number,
 ): boolean {
   const p = state.players[playerIdx];
-  if (!p || state.stage !== "await-move") return false;
+  if (
+    !p ||
+    state.stage !== "await-move" ||
+    !Number.isInteger(tokenIdx) ||
+    tokenIdx < 0 ||
+    tokenIdx >= p.tokens.length ||
+    !Number.isInteger(dice) ||
+    dice < 1 ||
+    dice > 6
+  )
+    return false;
   const steps = p.tokens[tokenIdx];
   if (steps === FINISHED) return false;
   if (steps === YARD) return dice === 6;

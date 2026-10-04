@@ -7,7 +7,7 @@ import {
   type CSSProperties,
 } from "react";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import Board, { PLAYER_COLORS } from "@/components/Board";
 import Dice from "@/components/Dice";
 import ColorPicker from "@/components/ColorPicker";
@@ -63,6 +63,7 @@ function RoomRoute() {
   );
 }
 function Room({ roomId, localMode }: { roomId: string; localMode: boolean }) {
+  const router = useRouter();
   const [name, setName] = useState(
     () => localStorage.getItem("ludo-name") || "",
   );
@@ -102,6 +103,22 @@ function Room({ roomId, localMode }: { roomId: string; localMode: boolean }) {
     joinRequested,
     joinColor,
   );
+  function leaveTable() {
+    if (
+      !window.confirm(
+        localMode
+          ? "Leave this pass-and-play game?"
+          : "Leave this table? Your tokens will be removed.",
+      )
+    )
+      return;
+    if (localMode) router.push("/");
+    else online.leave();
+  }
+  const vote =
+    online.game?.kickVote && online.game.kickVote.expiresAt > now
+      ? online.game.kickVote
+      : null;
   const joinAvailable =
     online.preview &&
     !online.preview.started &&
@@ -216,10 +233,20 @@ function Room({ roomId, localMode }: { roomId: string; localMode: boolean }) {
           ludo<span className="brand-light">friends</span>
           <span className="brand-dot">.</span>
         </Link>
-        <Link href="/" className="back-link">
-          <Icon name="home" size={16} />
-          Back to lobby
-        </Link>
+        {(localMode || online.myIdx !== null) && !online.removed ? (
+          <button
+            className="button button-secondary leave-table-button"
+            onClick={leaveTable}
+            disabled={!localMode && !online.connected}
+          >
+            Leave table
+          </button>
+        ) : (
+          <Link href="/" className="back-link">
+            <Icon name="home" size={16} />
+            Back to lobby
+          </Link>
+        )}
       </header>
       <main>
         <div className="room-heading">
@@ -259,7 +286,71 @@ function Room({ roomId, localMode }: { roomId: string; localMode: boolean }) {
             </div>
           </div>
         </div>
-        {!joinRequested && !localMode ? (
+        {!localMode &&
+          online.game &&
+          !online.removed &&
+          online.myIdx !== null && (
+            <details className="table-options">
+              <summary>Table options · players & votes</summary>
+              <p>
+                Five consecutive missed turns remove a player. A vote needs a
+                majority of the other players, with at least two votes.
+              </p>
+              {vote && (
+                <p role="status">
+                  Remove {online.game.players[vote.target]?.name}:{" "}
+                  {vote.voters.length}/{vote.needed} votes ·{" "}
+                  {Math.max(0, Math.ceil((vote.expiresAt - now) / 1000))}s left
+                </p>
+              )}
+              {online.game.players.map((player, index) => (
+                <div className="table-option-player" key={player.color}>
+                  <span>
+                    <strong>
+                      {player.name}
+                      {index === online.myIdx ? " (you)" : ""}
+                      {index === 0 && waiting ? " · host" : ""}
+                    </strong>
+                    <small>
+                      {player.missedTurns ?? 0}/5 consecutive turns missed
+                    </small>
+                  </span>
+                  {index !== online.myIdx && (
+                    <button
+                      className="button button-secondary"
+                      disabled={
+                        !online.connected ||
+                        online.game!.players.length < 3 ||
+                        online.game!.stage === "game-over" ||
+                        (!!vote &&
+                          (vote.target !== index ||
+                            vote.voters.includes(online.myIdx!)))
+                      }
+                      onClick={() => {
+                        if (window.confirm(`Vote to remove ${player.name}?`))
+                          online.voteKick(index);
+                      }}
+                    >
+                      {vote?.target === index &&
+                      vote.voters.includes(online.myIdx!)
+                        ? "Voted"
+                        : "Vote to remove"}
+                    </button>
+                  )}
+                </div>
+              ))}
+              {online.error && <p role="alert">{online.error}</p>}
+            </details>
+          )}
+        {online.removed ? (
+          <section className="empty-room">
+            <h2>You left the table</h2>
+            <p role="status">{online.removed}</p>
+            <Link href="/" className="button button-primary">
+              Back to lobby
+            </Link>
+          </section>
+        ) : !joinRequested && !localMode ? (
           <section className="empty-room join-room-card">
             <span className="large-icon">
               <Icon name="people" size={30} />
@@ -576,6 +667,9 @@ function Room({ roomId, localMode }: { roomId: string; localMode: boolean }) {
                         canRoll={
                           !waiting &&
                           myTurn &&
+                          (localMode ||
+                            (online.myIdx === online.game?.turnIdx &&
+                              online.game?.stage === "await-roll")) &&
                           canAct &&
                           game.stage === "await-roll"
                         }
@@ -726,7 +820,10 @@ function Room({ roomId, localMode }: { roomId: string; localMode: boolean }) {
                           aria-label={`${p.tokens.filter((t) => t === FINISHED).length} of 4 tokens home`}
                         >
                           {p.tokens.map((t, index) => (
-                            <i key={index} className={t === FINISHED ? "home" : ""} />
+                            <i
+                              key={index}
+                              className={t === FINISHED ? "home" : ""}
+                            />
                           ))}
                         </div>
                       </div>

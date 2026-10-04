@@ -12,6 +12,9 @@ import {
   startRoom,
   scheduleOnlyMove,
   selectPlayerColor,
+  removePlayer,
+  voteToKick,
+  recordPlayerAction,
 } from "./game-store";
 import {
   applyRoll,
@@ -53,13 +56,46 @@ function broadcast(roomId: string) {
   const room = rooms.get(roomId);
   if (!room) return;
   io.to(`lobby:${roomId}`).emit("room-info", roomInfo(roomId));
-  io.to(roomId).emit("room-state", {
-    ...room.game,
-    turnDeadline: room.turnDeadline,
-    size: room.size,
-    started: room.started,
-    connectedPlayers: [...new Set(room.socketToPlayer.values())],
-  });
+  for (const removal of room.removals.splice(0)) {
+    io.to(roomId).emit("table-notice", {
+      message: `${removal.name}: ${removal.reason}`,
+    });
+    for (const client of io.sockets.sockets.values()) {
+      if (
+        removal.socketIds.includes(client.id) ||
+        (client.data.gameRoom === roomId &&
+          removal.playerIds.includes(client.data.playerId))
+      ) {
+        client.emit("table-removed", { reason: removal.reason });
+        client.disconnect(true);
+      }
+    }
+  }
+  if (!room.game.players.length) {
+    rooms.delete(roomId);
+    return;
+  }
+  if (room.kickVote && room.kickVote.expiresAt <= Date.now())
+    room.kickVote = undefined;
+  for (const [socketId, playerIdx] of room.socketToPlayer) {
+    io.to(socketId).emit("room-state", {
+      ...room.game,
+      playerIdx,
+      turnDeadline: room.turnDeadline,
+      size: room.size,
+      started: room.started,
+      connectedPlayers: [...new Set(room.socketToPlayer.values())],
+      kickVote: room.kickVote
+        ? {
+            ...room.kickVote,
+            needed: Math.max(
+              2,
+              Math.floor((room.game.players.length - 1) / 2) + 1,
+            ),
+          }
+        : null,
+    });
+  }
 }
 
 function armTimer(roomId: string) {
@@ -101,6 +137,7 @@ io.on("connection", (socket) => {
       players: number;
       color?: LudoColor;
     }) => {
+      if (joinedRoom) return;
       if (color !== undefined && !COLORS.includes(color)) {
         socket.emit("error", {
           code: "BAD_COLOR",
@@ -137,6 +174,7 @@ io.on("connection", (socket) => {
     }) => {
       try {
         const id = (roomId || "").toUpperCase();
+        if (joinedRoom) return;
         const room = rooms.get(id);
         if (!room)
           return socket.emit("error", {
@@ -162,6 +200,48 @@ io.on("connection", (socket) => {
       } catch (e) {
         socket.emit("error", {
           code: "JOIN_FAILED",
+          message: (e as Error).message,
+        });
+      }
+    },
+  );
+
+  socket.on("leave-table", ({ roomId }: { roomId: string }) => {
+    const room = rooms.get(roomId);
+    const index = room?.socketToPlayer.get(socket.id);
+    if (!room || index === undefined) return;
+    const current = room.game.turnIdx;
+    removePlayer(room, index, "Left the table.");
+    // Only reset another player's deadline if their turn was removed.
+    if (index === current || room.game.stage === "game-over") armTimer(roomId);
+    else
+      scheduleOnlyMove(room, () => {
+        armTimer(roomId);
+        broadcast(roomId);
+      });
+    broadcast(roomId);
+  });
+  socket.on(
+    "vote-kick",
+    ({ roomId, target }: { roomId: string; target: number }) => {
+      const room = rooms.get(roomId);
+      if (!room) return;
+      try {
+        const current = room.game.turnIdx;
+        const removed = voteToKick(room, socket.id, target);
+        if (removed) {
+          if (target === current || room.game.stage === "game-over")
+            armTimer(roomId);
+          else
+            scheduleOnlyMove(room, () => {
+              armTimer(roomId);
+              broadcast(roomId);
+            });
+        }
+        broadcast(roomId);
+      } catch (e) {
+        socket.emit("error", {
+          code: "VOTE_FAILED",
           message: (e as Error).message,
         });
       }
@@ -229,6 +309,7 @@ io.on("connection", (socket) => {
       const dice = secureDice();
       const { state, forfeited } = applyRoll(room.game, pi, dice);
       room.game = state;
+      recordPlayerAction(room, pi);
       const moves =
         state.stage === "await-move" ? getLegalMoves(state, pi, dice) : [];
       io.to(roomId).emit("dice-rolled", {
@@ -274,6 +355,7 @@ io.on("connection", (socket) => {
           dice,
         );
         room.game = state;
+        recordPlayerAction(room, pi);
         io.to(roomId).emit("token-moved", {
           player: state.players[pi]?.color,
           tokenIdx,
@@ -324,6 +406,7 @@ io.on("connection", (socket) => {
       socket.data.voiceRoom = voiceRoom;
       socket.data.gameRoom = id;
       socket.data.peerId = msg.peerId;
+      socket.data.playerId = msg.playerId;
       ack?.({ ok: true });
     },
   );

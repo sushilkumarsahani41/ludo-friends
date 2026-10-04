@@ -49,13 +49,16 @@ export default function Dice({
       onClick={onRoll}
       disabled={!canRoll || rolling}
       className={`dice-button ${rolling ? "rolling" : ""}`}
+      title={canRoll ? "Roll the dice" : "Only the current player can roll"}
       aria-busy={rolling}
       aria-label={
         rolling
           ? "Rolling dice"
-          : value
-            ? `Roll dice. Last roll: ${value}`
-            : "Roll dice"
+          : !canRoll
+            ? `Dice, view only${value ? `. Last roll: ${value}` : ""}`
+            : value
+              ? `Roll dice. Last roll: ${value}`
+              : "Roll dice"
       }
     >
       <DiceFace value={rolling ? face : (value ?? 5)} />

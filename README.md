@@ -43,6 +43,14 @@ dependencies remain in the repository but are not used by the current voice UI.
 - Synthesized sound effects for dice, token steps, captures, home arrivals, and wins. The Sound on/off toggle remembers your preference and is separate from voice chat. Audio starts after a page interaction and stays quiet in hidden tabs.
 - Reduced-motion support, visible keyboard focus, and explicit loading/error states.
 
+## Table controls
+
+- **Leave table** removes your seat and tokens. In a lobby, the next player becomes host. During play, the remaining players continue; the last player wins when everyone else leaves.
+- **Table options** lets players vote to remove someone. Votes last 60 seconds and need a majority of the other players, with at least two distinct votes. Voting is unavailable in two-player games. A roster change cancels an unfinished vote.
+- Five consecutive 30-second action timeouts remove a player. A successful manual roll or move resets the streak. Automatic single-token moves do not count as misses; each timed-out opportunity counts once, including its automatic roll and move.
+- Only the current player can roll. Other players see the same dice animation and result but have read-only dice.
+- Removed identities cannot reconnect to the same table; new players cannot enter a game after it starts. This is casual room moderation, not an account-level ban.
+
 ## Deploy with Docker and one public hostname
 
 ```sh

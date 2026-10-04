@@ -8,6 +8,13 @@ type RoomState = LudoGameState & {
   size?: number;
   started: boolean;
   connectedPlayers: number[];
+  playerIdx: number;
+  kickVote?: {
+    target: number;
+    voters: number[];
+    needed: number;
+    expiresAt: number;
+  } | null;
 };
 export function useGameSocket(
   roomId: string,
@@ -25,6 +32,7 @@ export function useGameSocket(
   } | null>(null);
   const [game, setGame] = useState<RoomState | null>(null);
   const [myIdx, setMyIdx] = useState<number | null>(null);
+  const [removed, setRemoved] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [events, setEvents] = useState<string[]>([]);
   useEffect(() => {
@@ -60,9 +68,19 @@ export function useGameSocket(
         setError(null);
       },
     );
+    socket.on("table-removed", ({ reason }: { reason: string }) => {
+      setRemoved(reason);
+      setMyIdx(null);
+      setConnected(false);
+      socket.disconnect();
+    });
+    socket.on("table-notice", ({ message }: { message: string }) =>
+      add(message),
+    );
     socket.on("room-info", setPreview);
     socket.on("room-state", (state: RoomState) => {
       setGame(state);
+      setMyIdx(state.playerIdx);
       setError(null);
     });
     socket.on(
@@ -112,11 +130,15 @@ export function useGameSocket(
   }, [roomId, name, enabled, joinRequested, color]);
   return {
     connected,
+    removed,
     preview,
     game,
     myIdx,
     error,
     events,
+    leave: () => socketRef.current?.emit("leave-table", { roomId }),
+    voteKick: (target: number) =>
+      socketRef.current?.emit("vote-kick", { roomId, target }),
     selectColor: (color: LudoColor) =>
       socketRef.current?.emit("select-color", { roomId, color }),
     start: () => socketRef.current?.emit("start-game", { roomId }),

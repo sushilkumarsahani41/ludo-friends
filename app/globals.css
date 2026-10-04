@@ -2258,13 +2258,19 @@ body {
 }
 
 /* Keep dice readable and turns unmistakable against the dark table. */
-.floating-dice { background: #fff; }
-button.dice-button:disabled { opacity: 1; }
+.floating-dice {
+  background: #fff;
+}
+button.dice-button:disabled {
+  opacity: 1;
+}
 .active-yard:after {
   inset: 4%;
   border: 3px solid #fff;
   border-radius: 9%;
-  box-shadow: 0 0 0 2px #14213dcc, inset 0 0 0 2px #14213d88;
+  box-shadow:
+    0 0 0 2px #14213dcc,
+    inset 0 0 0 2px #14213d88;
 }
 .yard-turn-badge {
   position: absolute;
@@ -2287,7 +2293,9 @@ button.dice-button:disabled { opacity: 1; }
 .current-player {
   border-color: var(--player-color);
   background: color-mix(in srgb, var(--player-color) 22%, #162238);
-  box-shadow: inset 4px 0 0 var(--player-color), 0 0 0 1px var(--player-color);
+  box-shadow:
+    inset 4px 0 0 var(--player-color),
+    0 0 0 1px var(--player-color);
 }
 .current-player .player-avatar {
   background: var(--player-color);
@@ -2310,4 +2318,48 @@ button.dice-button:disabled { opacity: 1; }
   color: #101a2b;
   font-weight: 850;
   letter-spacing: 1px;
+}
+
+.table-options {
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--white);
+}
+.table-options summary {
+  cursor: pointer;
+  min-height: 28px;
+  font-weight: 700;
+}
+.table-options p {
+  color: var(--muted);
+  margin: 10px 0;
+  line-height: 1.6;
+}
+.table-option-player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.table-option-player > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.table-option-player small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.table-option-player button,
+.leave-table-button {
+  min-height: 44px;
+  flex-shrink: 0;
+}
+.dice-button:disabled:not(.rolling) {
+  box-shadow: 0 2px 0 #a4aab4;
+  cursor: default;
 }

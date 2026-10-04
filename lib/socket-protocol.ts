@@ -9,6 +9,8 @@ export interface ClientToServer {
     playerId?: string;
     color?: LudoColor;
   };
+  "leave-table": { roomId: string };
+  "vote-kick": { roomId: string; target: number };
   "watch-room": { roomId: string };
   "select-color": { roomId: string; color: LudoColor };
   "start-game": { roomId: string };
@@ -17,6 +19,8 @@ export interface ClientToServer {
 }
 
 export interface ServerToClient {
+  "table-removed": (p: { reason: string }) => void;
+  "table-notice": (p: { message: string }) => void;
   "room-info": (room: {
     roomId: string;
     size: number;
@@ -29,6 +33,13 @@ export interface ServerToClient {
       turnDeadline: number;
       started: boolean;
       connectedPlayers: number[];
+      playerIdx: number;
+      kickVote: {
+        target: number;
+        voters: number[];
+        needed: number;
+        expiresAt: number;
+      } | null;
     },
   ) => void;
   "dice-rolled": (p: {
