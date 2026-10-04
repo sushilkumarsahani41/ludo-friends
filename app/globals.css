@@ -807,10 +807,10 @@ input::placeholder {
   background: transparent;
 }
 .pip.visible {
-  background: var(--ink);
+  background: #172033;
 }
 .dice-button {
-  background: #1c2a40;
+  background: #ffffff;
   width: 68px;
   height: 68px;
   min-width: 68px;
@@ -828,7 +828,7 @@ input::placeholder {
   animation: dice-roll 0.4s ease;
 }
 .dice-button:disabled {
-  opacity: 0.65;
+  opacity: 1;
 }
 @keyframes dice-roll {
   25% {
@@ -2255,4 +2255,59 @@ body {
 .lobby-seat.seat-ready {
   background: #21324b;
   border-color: var(--player-color);
+}
+
+/* Keep dice readable and turns unmistakable against the dark table. */
+.floating-dice { background: #fff; }
+button.dice-button:disabled { opacity: 1; }
+.active-yard:after {
+  inset: 4%;
+  border: 3px solid #fff;
+  border-radius: 9%;
+  box-shadow: 0 0 0 2px #14213dcc, inset 0 0 0 2px #14213d88;
+}
+.yard-turn-badge {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 3px 7px;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  background: #101a2b;
+  color: #fff;
+  font-size: clamp(7px, 1.1vw, 10px);
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.current-player {
+  border-color: var(--player-color);
+  background: color-mix(in srgb, var(--player-color) 22%, #162238);
+  box-shadow: inset 4px 0 0 var(--player-color), 0 0 0 1px var(--player-color);
+}
+.current-player .player-avatar {
+  background: var(--player-color);
+  color: #101a2b;
+  box-shadow: 0 0 0 2px #fff;
+}
+.current-player .player-info > span {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: #fff;
+  color: #172033;
+  font-weight: 750;
+}
+.turn-copy .eyebrow {
+  display: inline-block;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: var(--player-color);
+  color: #101a2b;
+  font-weight: 850;
+  letter-spacing: 1px;
 }

@@ -78,6 +78,9 @@ export default function Board({
               } as CSSProperties
             }
           >
+            {!preview && active && game.players[game.turnIdx]?.color === color && (
+              <span className="yard-turn-badge">Playing now</span>
+            )}
             <div className="yard-inner">
               {[0, 1, 2, 3].map((n) => (
                 <span key={n} className="yard-socket" />
